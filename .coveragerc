@@ -1,0 +1,7 @@
+[run]
+branch = True
+source = subjectclient
+omit = subjectclient/openstack/*
+
+[report]
+ignore_errors = True
