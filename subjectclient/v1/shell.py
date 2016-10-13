@@ -125,8 +125,8 @@ def _read_subject_from_file(file):
            help='Name of image.')
 @utils.arg('--belong', metavar='<subject_id>',
            help='be related to who.')
-@utils.arg('--subject-format', metavar='<TAR_FORMAT>',
-           help='Disk format of subject. ' + TAR_FORMATS)
+@utils.arg('--subject-format', metavar='<SUBJECT_FORMATS>',
+           help='format of subject. ' + SUBJECT_FORMATS)
 @utils.arg('--tar-format', metavar='<TAR_FORMAT>',
            help='Disk format of subject. ' + TAR_FORMATS)
 @utils.arg('--type', metavar='<type>',
