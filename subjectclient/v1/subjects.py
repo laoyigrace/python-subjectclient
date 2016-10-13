@@ -71,7 +71,7 @@ class SubjectManager(base.BootingManagerWithFind):
     resource_class = Subject
 
     def list(self, **kwargs):
-        """Retrieve a listing of Image objects.
+        """Retrieve a listing of Subject objects.
 
         :param page_size: Number of images to request in each
                           paginated request.
@@ -183,3 +183,15 @@ class SubjectManager(base.BootingManagerWithFind):
         body['subject'] = fields
 
         return self._create(resource_url, body, "subject", **kwargs)
+
+    def upload(self, subject_id, subject_data, subject_size=None):
+        """Upload the data for an subject.
+
+        :param subject_id: ID of the image to upload data for.
+        :param subject_data: File-like object supplying the data to upload.
+        :param subject_size: Unused - present for backwards compatibility
+        """
+        url = '/v1/images/%s/file' % subject_id
+        hdrs = {'Content-Type': 'application/octet-stream'}
+        body = subject_data
+        self.api.client.put(url, headers=hdrs, body=body)

@@ -704,7 +704,7 @@ class OpenStackComputeShell(object):
             endpoint_type = DEFAULT_NOVA_ENDPOINT_TYPE
 
         # This allow users to use endpoint_type as (internal, public or admin)
-        # just like other openstack clients (glance, cinder etc)
+        # just like other openstack clients (subject, cinder etc)
         if endpoint_type in ['internal', 'public', 'admin']:
             endpoint_type += 'URL'
 

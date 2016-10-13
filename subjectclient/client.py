@@ -371,13 +371,41 @@ class HTTPClient(object):
         elif self._session:
             return self._session
 
+    def _set_common_request_kwargs(self, headers, kwargs):
+        """Handle the common parameters used to send the request."""
+
+        # Default Content-Type is octet-stream
+        content_type = headers.get('Content-Type', 'application/json')
+
+        # NOTE(jamielennox): remove this later. Managers should pass json= if
+        # they want to send json data.
+        data = kwargs.pop("body", None)
+        if data is not None and not isinstance(data, six.string_types):
+            try:
+                data = json.dumps(data)
+                content_type = 'application/json'
+            except TypeError:
+                # Here we assume it's
+                # a file-like object
+                # and we'll chunk it
+                data = self._chunk_body(data)
+
+        headers['Content-Type'] = content_type
+        kwargs['stream'] = content_type == 'application/octet-stream'
+
+        return data
+
     def request(self, url, method, **kwargs):
         kwargs.setdefault('headers', kwargs.get('headers', {}))
         kwargs['headers']['User-Agent'] = self.USER_AGENT
         kwargs['headers']['Accept'] = 'application/json'
         if 'body' in kwargs:
             kwargs['headers']['Content-Type'] = 'application/json'
-            kwargs['data'] = json.dumps(kwargs.pop('body'))
+            data = self._set_common_request_kwargs(kwargs['headers'], **kwargs)
+            kwargs['data'] = data
+
+        kwargs['headers']['Accept'] = kwargs['headers']['Content-Type']
+
         api_versions.update_headers(kwargs["headers"], self.api_version)
         if self.timeout is not None:
             kwargs.setdefault('timeout', self.timeout)

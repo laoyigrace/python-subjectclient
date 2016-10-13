@@ -46,7 +46,7 @@ from subjectclient.v1 import security_group_rules
 from subjectclient.v1 import security_groups
 from subjectclient.v1 import server_groups
 from subjectclient.v1 import server_migrations
-from subjectclient.v1 import servers
+from subjectclient.v1 import subjects
 from subjectclient.v1 import services
 from subjectclient.v1 import usage
 from subjectclient.v1 import versions
@@ -134,7 +134,7 @@ class Client(object):
         self.images = images.ImageManager(self)
         self.glance = images.GlanceManager(self)
         self.limits = limits.LimitsManager(self)
-        self.servers = servers.ServerManager(self)
+        self.servers = subjects.ServerManager(self)
         self.versions = versions.VersionManager(self)
 
         # extensions

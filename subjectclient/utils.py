@@ -500,7 +500,7 @@ def get_file_size(file_obj):
                 # Illegal seek. This means the file object
                 # is a pipe (e.g. the user is trying
                 # to pipe image data to the client,
-                # echo testdata | bin/glance add blah...), or
+                # echo testdata | bin/subject add blah...), or
                 # that file object is empty, or that a file-like
                 # object which doesn't support 'seek/tell' has
                 # been supplied.
@@ -515,11 +515,11 @@ def get_data_file(args):
     else:
         # distinguish cases where:
         # (1) stdin is not valid (as in cron jobs):
-        #     glance ... <&-
+        #     subject ... <&-
         # (2) image data is provided through standard input:
-        #     glance ... < /tmp/file or cat /tmp/file | glance ...
+        #     subject ... < /tmp/file or cat /tmp/file | subject ...
         # (3) no image data provided:
-        #     glance ...
+        #     subject ...
         try:
             os.fstat(0)
         except OSError:

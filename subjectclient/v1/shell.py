@@ -31,10 +31,6 @@ import time
 import warnings
 
 from oslo_utils import encodeutils
-from oslo_utils import netutils
-from oslo_utils import strutils
-from oslo_utils import timeutils
-from oslo_utils import uuidutils
 import six
 
 import subjectclient
@@ -46,9 +42,7 @@ from subjectclient.i18n import _
 from subjectclient.i18n import _LE
 from subjectclient import shell
 from subjectclient import utils
-from subjectclient.v1 import availability_zones
-from subjectclient.v1 import quotas
-from subjectclient.v1 import servers
+from subjectclient import progressbar
 
 
 logger = logging.getLogger(__name__)
@@ -100,6 +94,31 @@ LANGUAGE = ('C/C++, JAVA, Python, GO, JavaScript, Ruby, Lua')
 _bool_strict = functools.partial(strutils.bool_from_string, strict=True)
 
 
+def _read_subject_from_file(file):
+    try:
+        fd = open(file)
+    except IOError as e:
+        raise exceptions.CommandError(_("Can't open '%(file)s': "
+                                        "%(exc)s") %
+                                      {'file': file,
+                                       'exc': e})
+    userdata = fd.read()
+
+    # NOTE(melwitt): Text file data is converted to bytes prior to
+    # base64 encoding. The utf-8 encoding will fail for binary files.
+    if six.PY3:
+        try:
+            userdata = userdata.encode("utf-8")
+        except AttributeError:
+            # In python 3, 'bytes' object has no attribute 'encode'
+            pass
+    else:
+        try:
+            userdata = encodeutils.safe_encode(userdata)
+        except UnicodeDecodeError:
+            pass
+    return userdata
+
 @utils.arg('--id', metavar='<SUBJECT_ID>',
            help='ID of image to reserve.')
 @utils.arg('--name', metavar='<NAME>',
@@ -123,6 +142,8 @@ _bool_strict = functools.partial(strutils.bool_from_string, strict=True)
                  'specify \'swift+http://tenant%%3Aaccount:key@auth_url/'
                  'v1.0/container/obj\'. '
                  '(Note: \'%%3A\' is \':\' URL encoded.)'))
+@utils.arg('--subject', metavar='<FILE>',
+           help=('Local file that contains subject description.'))
 @utils.arg('--file', metavar='<FILE>',
            help=('Local file that contains subject to be uploaded during'
                  ' creation. Alternatively, subjects can be passed to the '
@@ -166,6 +187,10 @@ def do_subject_create(gc, args):
     if file_name is not None and os.access(file_name, os.R_OK) is False:
         utils.exit("File %s does not exist or user does not have read "
                    "privileges to it" % file_name)
+
+    if 'subject' in fields:
+        fields['subject'] = _read_subject_from_file(fields['subject'])
+
     image = gc.subjects.create(**fields)
     try:
         if utils.get_data_file(args) is not None:
@@ -175,3 +200,28 @@ def do_subject_create(gc, args):
             image = gc.subjects.get(args.id)
     finally:
         utils.print_image(image)
+
+
+@utils.arg('--file', metavar='<FILE>',
+           help=('Local file that contains subject to be uploaded during'
+                 ' creation. Alternatively, subjects can be passed to the '
+                 'client via stdin.'))
+@utils.arg('--size', metavar='<IMAGE_SIZE>', type=int,
+           help=_('Size in bytes of subject to be uploaded. Default is to get '
+                  'size from provided data object but this is supported in '
+                  'case where size cannot be inferred.'),
+           default=None)
+@utils.arg('--progress', action='store_true', default=False,
+           help=_('Show upload progress bar.'))
+@utils.arg('id', metavar='<SUBJECT_ID>',
+           help=_('ID of subject to upload data to.'))
+def do_subject_upload(gc, args):
+    """Upload data for a specific image."""
+    subject_data = utils.get_data_file(args)
+    if args.progress:
+        filesize = utils.get_file_size(subject_data)
+        if filesize is not None:
+            # NOTE(kragniz): do not show a progress bar if the size of the
+            # input is unknown (most likely a piped input)
+            image_data = progressbar.VerboseFileWrapper(subject_data, filesize)
+    gc.subjects.upload(args.id, subject_data, args.size)
