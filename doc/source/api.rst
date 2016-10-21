@@ -2,7 +2,7 @@ The :mod:`subjectclient` Python API
 ================================
 
 .. module:: subjectclient
-   :synopsis: A client for the OpenStack Nova API.
+   :synopsis: A client for the OpenStack Subject API.
 
 .. currentmodule:: subjectclient
 

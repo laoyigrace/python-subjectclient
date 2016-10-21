@@ -155,7 +155,7 @@ pygments_style = 'sphinx'
 # List of tuples 'sourcefile', 'target', u'title', u'Authors name', 'manual'
 
 man_pages = [
-    ('man/subject', 'subject', 'OpenStack Nova command line client',
+    ('man/subject', 'subject', 'OpenStack Subject command line client',
      ['OpenStack Contributors'], 1),
 ]
 

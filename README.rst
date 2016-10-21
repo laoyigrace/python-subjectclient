@@ -1,4 +1,4 @@
-Python bindings to the OpenStack Nova API
+Python bindings to the OpenStack Subject API
 =========================================
 
 .. image:: https://img.shields.io/pypi/v/python-subjectclient.svg
@@ -9,9 +9,9 @@ Python bindings to the OpenStack Nova API
     :target: https://pypi.python.org/pypi/python-subjectclient/
     :alt: Downloads
 
-This is a client for the OpenStack Nova API. There's a Python API (the
+This is a client for the OpenStack Subject API. There's a Python API (the
 ``subjectclient`` module), and a command-line script (``subject``). Each
-implements 100% of the OpenStack Nova API.
+implements 100% of the OpenStack Subject API.
 
 See the `OpenStack CLI guide`_ for information on how to use the ``subject``
 command-line tool. You may also want to look at the

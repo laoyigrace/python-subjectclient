@@ -15,7 +15,7 @@
 #    under the License.
 
 """
-Command-line interface to the OpenStack Nova API.
+Command-line interface to the OpenStack Subject API.
 """
 
 from __future__ import print_function
@@ -338,10 +338,10 @@ class SecretsHelper(object):
         return tenant_id
 
 
-class NovaClientArgumentParser(argparse.ArgumentParser):
+class SubjectClientArgumentParser(argparse.ArgumentParser):
 
     def __init__(self, *args, **kwargs):
-        super(NovaClientArgumentParser, self).__init__(*args, **kwargs)
+        super(SubjectClientArgumentParser, self).__init__(*args, **kwargs)
 
     def error(self, message):
         """error(message: string)
@@ -367,7 +367,7 @@ class NovaClientArgumentParser(argparse.ArgumentParser):
         parsing succeed because --key could only match --key-name,
         --key_name which are current/deprecated forms of the same option.
         """
-        option_tuples = (super(NovaClientArgumentParser, self)
+        option_tuples = (super(SubjectClientArgumentParser, self)
                          ._get_option_tuples(option_string))
         if len(option_tuples) > 1:
             normalizeds = [option.replace('_', '-')
@@ -409,7 +409,7 @@ class OpenStackComputeShell(object):
             'OS_PROJECT_ID', 'OS_TENANT_ID'))
 
     def get_base_parser(self, argv):
-        parser = NovaClientArgumentParser(
+        parser = SubjectClientArgumentParser(
             prog='subject',
             description=__doc__.strip(),
             epilog='See "subject help COMMAND" '
@@ -477,7 +477,7 @@ class OpenStackComputeShell(object):
             action=DeprecatedAction,
             metavar='<volume-service-name>',
             default=utils.env('NOVA_VOLUME_SERVICE_NAME'),
-            use=_('This option will be removed after Nova 15.0.0 is '
+            use=_('This option will be removed after Subject 15.0.0 is '
                   'released.'),
             help=argparse.SUPPRESS)
 
@@ -758,7 +758,7 @@ class OpenStackComputeShell(object):
                           "or env[OS_AUTH_SYSTEM]"))
 
             if use_session:
-                # Not using Nova auth plugin, so use keystone
+                # Not using Subject auth plugin, so use keystone
                 with utils.record_time(self.times, args.timings,
                                        'auth_url', args.os_auth_url):
                     keystone_session = (
@@ -897,12 +897,12 @@ class OpenStackComputeShell(object):
             # got the token + service URL already. It exits fast in that case.
             if not utils.isunauthenticated(args.func):
                 if not use_session:
-                    # Only call authenticate() if Nova auth plugin is used.
+                    # Only call authenticate() if Subject auth plugin is used.
                     # If keystone is used, authentication is handled as part
                     # of session.
                     self.cs.authenticate()
         except exc.Unauthorized:
-            raise exc.CommandError(_("Invalid OpenStack Nova credentials."))
+            raise exc.CommandError(_("Invalid OpenStack Subject credentials."))
         except exc.AuthorizationFailure:
             raise exc.CommandError(_("Unable to authorize user"))
 

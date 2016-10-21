@@ -30,7 +30,7 @@ if not LOG.handlers:
     LOG.addHandler(logging.StreamHandler())
 
 
-LEGACY_HEADER_NAME = "X-OpenStack-Nova-API-Version"
+LEGACY_HEADER_NAME = "X-OpenStack-Subject-API-Version"
 HEADER_NAME = "OpenStack-API-Version"
 SERVICE_TYPE = "subject"
 # key is a deprecated version and value is an alternative version.
@@ -290,7 +290,7 @@ def discover_version(client, requested_version):
             return APIVersion('2.0')
         else:
             raise exceptions.UnsupportedVersion(
-                _("The server isn't backward compatible with Nova V2 REST "
+                _("The server isn't backward compatible with Subject V2 REST "
                   "API"))
 
     if server_start_version.is_null() and server_end_version.is_null():
@@ -422,7 +422,7 @@ def wraps(start_version, end_version=None):
 def _warn_missing_microversion_header(header_name):
     """Log a warning about missing microversion response header."""
     LOG.warning(_LW(
-        "Your request was processed by a Nova API which does not support "
+        "Your request was processed by a Subject API which does not support "
         "microversions (%s header is missing from response). "
         "Warning: Response may be incorrect."), header_name)
 

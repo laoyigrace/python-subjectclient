@@ -1,32 +1,32 @@
 ====
-nova
+subject
 ====
 
 
 SYNOPSIS
 ========
 
-  `nova` [options] <command> [command-options]
+  `subject` [options] <command> [command-options]
 
-  `nova help`
+  `subject help`
 
-  `nova help` <command>
+  `subject help` <command>
 
 
 DESCRIPTION
 ===========
 
-`nova` is a command line client for controlling OpenStack Nova, the cloud
-computing fabric controller. It implements 100% of the Nova API, allowing
+`subject` is a command line client for controlling OpenStack Subject, the cloud
+computing fabric controller. It implements 100% of the Subject API, allowing
 management of instances, images, quotas and much more.
 
-Before you can issue commands with `nova`, you must ensure that your
+Before you can issue commands with `subject`, you must ensure that your
 environment contains the necessary variables so that you can prove to the CLI
 who you are and what credentials you have to issue the commands. See
 `Getting Credentials for a CLI` section of `OpenStack CLI Guide` for more
 info.
 
-See `OpenStack Nova CLI Guide` for a full-fledged guide.
+See `OpenStack Subject CLI Guide` for a full-fledged guide.
 
 
 OPTIONS
@@ -34,11 +34,11 @@ OPTIONS
 
 To get a list of available commands and options run::
 
-    nova help
+    subject help
 
 To get usage and options of a command run::
 
-    nova help <command>
+    subject help <command>
 
 
 EXAMPLES
@@ -46,40 +46,40 @@ EXAMPLES
 
 Get information about boot command::
 
-    nova help boot
+    subject help boot
 
 List available images::
 
-    nova image-list
+    subject image-list
 
 List available flavors::
 
-    nova flavor-list
+    subject flavor-list
 
 Launch an instance::
 
-    nova boot myserver --image some-image --flavor 2
+    subject boot myserver --image some-image --flavor 2
 
 View instance information::
 
-    nova show myserver
+    subject show myserver
 
 List instances::
 
-    nova list
+    subject list
 
 Terminate an instance::
 
-    nova delete myserver
+    subject delete myserver
 
 
 SEE ALSO
 ========
 
-OpenStack Nova CLI Guide: http://docs.openstack.org/cli-reference/nova.html
+OpenStack Subject CLI Guide: http://docs.openstack.org/cli-reference/subject.html
 
 
 BUGS
 ====
 
-Nova client is hosted in Launchpad so you can view current bugs at https://bugs.launchpad.net/python-novaclient/.
+Subject client is hosted in Launchpad so you can view current bugs at https://bugs.launchpad.net/python-subjectclient/.

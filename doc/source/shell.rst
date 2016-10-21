@@ -1,23 +1,23 @@
-The :program:`nova` shell utility
+The :program:`subject` shell utility
 =================================
 
-.. program:: nova
+.. program:: subject
 .. highlight:: bash
 
-The :program:`nova` shell utility interacts with OpenStack Nova API
-from the command line. It supports the entirety of the OpenStack Nova API.
+The :program:`subject` shell utility interacts with OpenStack Subject API
+from the command line. It supports the entirety of the OpenStack Subject API.
 
-First, you'll need an OpenStack Nova account and an API key. You get this
-by using the `nova-manage` command in OpenStack Nova.
+First, you'll need an OpenStack Subject account and an API key. You get this
+by using the `subject-manage` command in OpenStack Subject.
 
-You'll need to provide :program:`nova` with your OpenStack username and
+You'll need to provide :program:`subject` with your OpenStack username and
 API key. You can do this with the :option:`--os-username`, :option:`--os-password`
 and :option:`--os-tenant-id` options, but it's easier to just set them as
 environment variables by setting two environment variables:
 
 .. envvar:: OS_USERNAME
 
-    Your OpenStack Nova username.
+    Your OpenStack Subject username.
 
 .. envvar:: OS_PASSWORD
 
@@ -45,8 +45,8 @@ For example, in Bash you'd use::
     
 From there, all shell commands take the form::
     
-    nova <command> [arguments...]
+    subject <command> [arguments...]
 
-Run :program:`nova help` to get a full list of all possible commands,
-and run :program:`nova help <command>` to get detailed help for that
+Run :program:`subject help` to get a full list of all possible commands,
+and run :program:`subject help <command>` to get detailed help for that
 command.

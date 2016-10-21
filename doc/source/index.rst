@@ -1,10 +1,10 @@
-Python bindings to the OpenStack Nova API
+Python bindings to the OpenStack Subject API
 =========================================
 
-This is a client for OpenStack Nova API. There's :doc:`a Python API
+This is a client for OpenStack Subject API. There's :doc:`a Python API
 <api>` (the :mod:`subjectclient` module), and a :doc:`command-line script
 <shell>` (installed as :program:`subject`). Each implements the entire
-OpenStack Nova API.
+OpenStack Subject API.
 
 You'll need credentials for an OpenStack cloud that implements the
 Compute API, such as TryStack, HP, or Rackspace, in order to use the subject client.
@@ -30,7 +30,7 @@ Contents:
 Contributing
 ============
 
-Code is hosted at `git.openstack.org`_. Submit bugs to the Nova project on
+Code is hosted at `git.openstack.org`_. Submit bugs to the Subject project on
 `Launchpad`_. Submit code to the openstack/python-subjectclient project using
 `Gerrit`_.
 
@@ -62,7 +62,7 @@ The process for command deprecation is:
    - The commit message on the change should include a DocImpact tag so it
      gets in the release notes.
    - The deprecation cycle is typically the first client release *after* the
-     next *full* Nova server release so that there is at least six months of
+     next *full* Subject server release so that there is at least six months of
      deprecation.
 
   2. Once the change is approved, have a member of the `subject-release`_ team
@@ -72,11 +72,11 @@ The process for command deprecation is:
 
   3. Example: `<https://review.openstack.org/#/c/185141/>`_
 
-     This change was made while the Nova 12.0.0 Liberty release was in
+     This change was made while the Subject 12.0.0 Liberty release was in
      development. The current version of python-subjectclient at the time was
      2.25.0. Once the change was merged, python-subjectclient 2.26.0 was released.
      Since there was less than six months before 12.0.0 would be released, the
-     deprecation cycle ran through the 13.0.0 Nova server release.
+     deprecation cycle ran through the 13.0.0 Subject server release.
 
 
 Man Page

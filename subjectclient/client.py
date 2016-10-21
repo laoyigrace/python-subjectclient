@@ -649,7 +649,7 @@ class HTTPClient(object):
         if self.bypass_url:
             self.set_management_url(self.bypass_url)
         elif not self.management_url:
-            raise exceptions.Unauthorized('Nova Client')
+            raise exceptions.Unauthorized('Subject Client')
 
         self._save_keys()
 

@@ -1,4 +1,4 @@
-Nova Client Style Commandments
+Subject Client Style Commandments
 ==============================
 
 - Step 1: Read the OpenStack Style Commandments
@@ -6,7 +6,7 @@ Nova Client Style Commandments
 - Step 2: Read on
 
 
-Nova Client Specific Commandments
+Subject Client Specific Commandments
 ---------------------------------
 None so far
 
