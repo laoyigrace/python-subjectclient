@@ -20,38 +20,9 @@ from keystoneauth1.exceptions import catalog as key_ex
 from subjectclient import client
 from subjectclient import exceptions
 from subjectclient.i18n import _LE
-from subjectclient.v1 import agents
-from subjectclient.v1 import aggregates
-from subjectclient.v1 import availability_zones
-from subjectclient.v1 import certs
-from subjectclient.v1 import cloudpipe
-from subjectclient.v1 import fixed_ips
-from subjectclient.v1 import flavor_access
-from subjectclient.v1 import flavors
-from subjectclient.v1 import floating_ip_dns
-from subjectclient.v1 import floating_ip_pools
-from subjectclient.v1 import floating_ips
-from subjectclient.v1 import floating_ips_bulk
-from subjectclient.v1 import fping
-from subjectclient.v1 import hosts
-from subjectclient.v1 import hypervisors
-from subjectclient.v1 import images
-from subjectclient.v1 import keypairs
-from subjectclient.v1 import limits
-from subjectclient.v1 import networks
-from subjectclient.v1 import quota_classes
-from subjectclient.v1 import quotas
-from subjectclient.v1 import security_group_default_rules
-from subjectclient.v1 import security_group_rules
-from subjectclient.v1 import security_groups
-from subjectclient.v1 import server_groups
-from subjectclient.v1 import server_migrations
 from subjectclient.v1 import subjects
-from subjectclient.v1 import services
-from subjectclient.v1 import usage
 from subjectclient.v1 import versions
-from subjectclient.v1 import virtual_interfaces
-from subjectclient.v1 import volumes
+
 
 
 class Client(object):
@@ -129,50 +100,10 @@ class Client(object):
         self.projectid = project_id
         self.tenant_id = tenant_id
         self.user_id = user_id
-        self.flavors = flavors.FlavorManager(self)
-        self.flavor_access = flavor_access.FlavorAccessManager(self)
-        self.images = images.ImageManager(self)
-        self.glance = images.GlanceManager(self)
-        self.limits = limits.LimitsManager(self)
-        self.servers = subjects.ServerManager(self)
-        self.versions = versions.VersionManager(self)
-
-        # extensions
-        self.agents = agents.AgentsManager(self)
-        self.dns_domains = floating_ip_dns.FloatingIPDNSDomainManager(self)
-        self.dns_entries = floating_ip_dns.FloatingIPDNSEntryManager(self)
-        self.cloudpipe = cloudpipe.CloudpipeManager(self)
-        self.certs = certs.CertificateManager(self)
-        self.floating_ips = floating_ips.FloatingIPManager(self)
-        self.floating_ip_pools = floating_ip_pools.FloatingIPPoolManager(self)
-        self.fping = fping.FpingManager(self)
-        self.volumes = volumes.VolumeManager(self)
-        self.keypairs = keypairs.KeypairManager(self)
-        self.networks = networks.NetworkManager(self)
-        self.neutron = networks.NeutronManager(self)
-        self.quota_classes = quota_classes.QuotaClassSetManager(self)
-        self.quotas = quotas.QuotaSetManager(self)
-        self.security_groups = security_groups.SecurityGroupManager(self)
-        self.security_group_rules = \
-            security_group_rules.SecurityGroupRuleManager(self)
-        self.security_group_default_rules = \
-            security_group_default_rules.SecurityGroupDefaultRuleManager(self)
-        self.usage = usage.UsageManager(self)
-        self.virtual_interfaces = \
-            virtual_interfaces.VirtualInterfaceManager(self)
-        self.aggregates = aggregates.AggregateManager(self)
-        self.hosts = hosts.HostManager(self)
-        self.hypervisors = hypervisors.HypervisorManager(self)
-        self.hypervisor_stats = hypervisors.HypervisorStatsManager(self)
-        self.services = services.ServiceManager(self)
-        self.fixed_ips = fixed_ips.FixedIPsManager(self)
-        self.floating_ips_bulk = floating_ips_bulk.FloatingIPBulkManager(self)
         self.os_cache = os_cache or not no_cache
-        self.availability_zones = \
-            availability_zones.AvailabilityZoneManager(self)
-        self.server_groups = server_groups.ServerGroupsManager(self)
-        self.server_migrations = \
-            server_migrations.ServerMigrationsManager(self)
+
+        self.versions = versions.VersionManager(self)
+        self.subjects = subjects.SubjectManager(self)
 
         # Add in any extensions...
         if extensions:

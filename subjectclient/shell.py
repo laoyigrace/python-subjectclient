@@ -786,7 +786,7 @@ class OpenStackComputeShell(object):
         # This client is just used to discover api version. Version API needn't
         # microversion, so we just pass version 2 at here.
         self.cs = client.Client(
-            api_versions.APIVersion("2.0"),
+            api_versions.APIVersion("1.0"),
             os_username, os_password, os_project_name,
             tenant_id=os_project_id, user_id=os_user_id,
             auth_url=os_auth_url, insecure=insecure,

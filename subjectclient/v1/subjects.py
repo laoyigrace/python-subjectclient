@@ -42,7 +42,7 @@ UPDATE_PARAMS = ('name', 'subject_format', 'tar_format', 'type',
                  # compatibility with the legacy client library
                  'deleted')
 
-CREATE_PARAMS = UPDATE_PARAMS + ('id')
+CREATE_PARAMS = UPDATE_PARAMS + ("id", "id")
 
 DEFAULT_PAGE_SIZE = 20
 
@@ -177,8 +177,7 @@ class SubjectManager(base.BootingManagerWithFind):
             elif field == 'return_req_id':
                 continue
             else:
-                msg = 'create() got an unexpected keyword argument \'%s\''
-                raise TypeError(msg % field)
+                continue
 
         body['subject'] = fields
 

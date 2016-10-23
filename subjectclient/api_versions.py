@@ -34,7 +34,7 @@ LEGACY_HEADER_NAME = "X-OpenStack-Subject-API-Version"
 HEADER_NAME = "OpenStack-API-Version"
 SERVICE_TYPE = "subject"
 # key is a deprecated version and value is an alternative version.
-DEPRECATED_VERSIONS = {"1.1": "2"}
+DEPRECATED_VERSIONS = {"1.0": "1.0"}
 
 _SUBSTITUTIONS = {}
 
@@ -214,6 +214,8 @@ def check_major_version(api_version):
                                                       supported
     """
     available_versions = get_available_major_versions()
+    print available_versions
+    print api_version
     if (not api_version.is_null() and
             str(api_version.ver_major) not in available_versions):
         if len(available_versions) == 1:
@@ -270,7 +272,7 @@ def discover_version(client, requested_version):
         client)
 
     if (not requested_version.is_latest() and
-            requested_version != APIVersion('2.0')):
+            requested_version != APIVersion('1.0')):
         if server_start_version.is_null() and server_end_version.is_null():
             raise exceptions.UnsupportedVersion(
                 _("Server doesn't support microversions"))
@@ -283,18 +285,18 @@ def discover_version(client, requested_version):
                     "max": server_end_version.get_string()})
         return requested_version
 
-    if requested_version == APIVersion('2.0'):
-        if (server_start_version == APIVersion('2.1') or
+    if requested_version == APIVersion('1.0'):
+        if (server_start_version == APIVersion('1.1') or
                 (server_start_version.is_null() and
                  server_end_version.is_null())):
-            return APIVersion('2.0')
+            return APIVersion('1.0')
         else:
             raise exceptions.UnsupportedVersion(
                 _("The server isn't backward compatible with Subject V2 REST "
                   "API"))
 
     if server_start_version.is_null() and server_end_version.is_null():
-        return APIVersion('2.0')
+        return APIVersion('1.0')
     elif subjectclient.API_MIN_VERSION > server_end_version:
         raise exceptions.UnsupportedVersion(
             _("Server version is too old. The client valid version range is "
@@ -428,7 +430,7 @@ def _warn_missing_microversion_header(header_name):
 
 
 def deprecated_after(version):
-    decorator = wraps('2.0', version)
+    decorator = wraps('1.0', version)
 
     def wrapper(fn):
         @functools.wraps(fn)

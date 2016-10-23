@@ -19,28 +19,19 @@
 from __future__ import print_function
 
 import argparse
-import copy
-import datetime
 import functools
-import getpass
-import locale
 import logging
 import os
-import sys
-import time
-import warnings
+
 
 from oslo_utils import encodeutils
+from oslo_utils import strutils
 import six
 
-import subjectclient
-from subjectclient import api_versions
-from subjectclient import base
-from subjectclient import client
+
 from subjectclient import exceptions
 from subjectclient.i18n import _
 from subjectclient.i18n import _LE
-from subjectclient import shell
 from subjectclient import utils
 from subjectclient import progressbar
 
@@ -61,33 +52,10 @@ def _meta_parsing(metadata):
     return dict(v.split('=', 1) for v in metadata)
 
 
-# Copyright 2012 OpenStack Foundation
-# All Rights Reserved.
-#
-#    Licensed under the Apache License, Version 2.0 (the "License"); you may
-#    not use this file except in compliance with the License. You may obtain
-#    a copy of the License at
-#
-#         http://www.apache.org/licenses/LICENSE-2.0
-#
-#    Unless required by applicable law or agreed to in writing, software
-#    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-#    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-#    License for the specific language governing permissions and limitations
-#    under the License.
-
-import functools
-import sys
-
-from oslo_utils import strutils
-
-from subjectclient._i18n import _
-import os
-
 DATA_FIELDS = ('location', 'copy_from', 'file')
 TYPE_FORMATS = 'Acceptable formats: program, choice, judge.'
 SUBJECT_FORMATS = 'Acceptable formats: src, template, subject, answer.'
-TAR_FORMATS = ('Acceptable formats: rar, tar, tar.gz, zip.')
+TAR_FORMATS = ('Acceptable formats: rar, tar, gzip, zip.')
 PHASE = ('Beginner, Intermediate, Advanced, Challenge')
 LANGUAGE = ('C/C++, JAVA, Python, GO, JavaScript, Ruby, Lua')
 
@@ -142,7 +110,7 @@ def _read_subject_from_file(file):
                  'specify \'swift+http://tenant%%3Aaccount:key@auth_url/'
                  'v1.0/container/obj\'. '
                  '(Note: \'%%3A\' is \':\' URL encoded.)'))
-@utils.arg('--subject', metavar='<FILE>',
+@utils.arg('--subject_desc', metavar='<FILE>',
            help=('Local file that contains subject description.'))
 @utils.arg('--file', metavar='<FILE>',
            help=('Local file that contains subject to be uploaded during'
@@ -178,6 +146,9 @@ def do_subject_create(gc, args):
     fields = dict(filter(lambda x: x[1] is not None,
                          _args))
 
+    print(args)
+    print(fields)
+
     raw_properties = fields.pop('property', [])
     for datum in raw_properties:
         key, value = datum.split('=', 1)
@@ -188,8 +159,8 @@ def do_subject_create(gc, args):
         utils.exit("File %s does not exist or user does not have read "
                    "privileges to it" % file_name)
 
-    if 'subject' in fields:
-        fields['subject'] = _read_subject_from_file(fields['subject'])
+    if 'subject_desc' in fields:
+        fields['subject_desc'] = _read_subject_from_file(fields['subject_desc'])
 
     image = gc.subjects.create(**fields)
     try:
